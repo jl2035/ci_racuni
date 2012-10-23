@@ -62,10 +62,45 @@
 		border: 1px solid #D0D0D0;
 		-webkit-box-shadow: 0 0 8px #D0D0D0;
 	}
+	
+	#j_glava
+	{
+		margin: 10px;
+		border: 1px solid #D0D0D0;
+		-webkit-box-shadow: 0 0 8px #D0D0D0;
+	}
+	#j_nav
+	{
+		float: left;
+	}
+	#j_nav ul
+	{
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+	#j_nav ul li
+	{
+		display: inline;
+		
+		padding: .2em 1em;	
+	}
+	$j_nav ul li a
+	{
+		text-decoration: none;
+	}
+	#j_user
+	{
+		float: right;
+	}
 	</style>
 </head>
 <body>
-<?php $this->load->view('layout/nav'); ?>
+	<div id="j_glava">
+		<div id="j_nav"><?php $this->load->view('layout/nav'); ?></div>
+		<div id="j_user"><?= anchor('user/logout', 'Odjava'); ?></div>
+		<br>
+	</div>
 <div id="container">
 
 <?php $this->load->view($content); ?>

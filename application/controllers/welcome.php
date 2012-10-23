@@ -6,13 +6,14 @@ class Welcome extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('url');
 	}
 
 	public function index()
 	{
-		if(!($this->session->userdata('logged_in') == 'true'))
-			$this->load->view('welcome_message');
+		if(!($this->session->userdata('logged_in') == 'true')){
+			$data['content'] = 'welcome_message';
+			$this->load->view('layout/master', $data);
+		}
 		else
 			redirect('storitve');
 	}

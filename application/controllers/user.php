@@ -12,9 +12,21 @@ class User extends CI_Controller {
 	public function index()
 	{
 		if(!($this->session->userdata('logged_in') == 'true'))
-			$this->load->view('view_login');
+		{
+			$data['content'] = 'view_login';
+			$this->load->view('layout/master', $data);
+		} //	$this->load->view('view_login');
 		else
-			$this->load->view('view_storitve');
+		{
+			redirect('storitve');
+		} //	$this->load->view('view_storitve');
+	}
+	
+	public function logout()
+	{
+		$this->session->unset_userdata('uid');
+		$this->session->set_userdata('logged_in', 'false');
+		redirect('welcome');
 	}
 	
 	public function login()
@@ -23,7 +35,8 @@ class User extends CI_Controller {
 		$this->form_validation->set_rules('password', 'Password', 'required|trim|max_length[100]|xss_clean');
 		if($this->form_validation->run() == FALSE)
 		{
-			$this->load_view('view_login');
+			$data['content'] = 'view_login';
+			$this->load->view('layout/master', $data);
 		}
 		else
 		{
@@ -32,7 +45,8 @@ class User extends CI_Controller {
 			$u_id = $this->User_model->check_login($usr, $pswd);
 			if(!$u_id) //Login failed
 			{
-				$this->load->view('view_login');
+				$data['content'] = 'view_login';
+				$this->load->view('layout/master', $data);
 			}
 			else
 			{

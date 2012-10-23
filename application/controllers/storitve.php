@@ -7,7 +7,6 @@ class Storitve extends CI_Controller {
 		
 		parent::__construct();
 		$this->load->helper('form');
-		$this->load->helper('url');
 		//$this->load->database();
 		
 	}

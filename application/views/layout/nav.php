@@ -1,3 +1,7 @@
-<div id="nav">
-To je nav... yeah
-</div>
+<ul>
+<?php
+	echo '<li>'.anchor('storitve', 'Storitve').'</li>';
+	echo '<li>'.anchor('racuni', 'Računi').'</li>';
+?>
+</ul>
+

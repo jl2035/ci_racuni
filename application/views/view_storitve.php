@@ -16,6 +16,6 @@
 	?>		
 	</table>
 
-	<?= anchor('storitve/addnew', 'Dodaj novo storitev'); ?>
+	<?= anchor('storitve/addnew', 'Dodaj storitev'); ?>
 	
 
