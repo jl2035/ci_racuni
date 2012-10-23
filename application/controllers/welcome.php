@@ -11,7 +11,10 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		if(!($this->session->userdata('logged_in') == 'true'))
+			$this->load->view('welcome_message');
+		else
+			redirect('storitve');
 	}
 }
 

@@ -11,7 +11,10 @@ class User extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('view_login');
+		if(!($this->session->userdata('logged_in') == 'true'))
+			$this->load->view('view_login');
+		else
+			$this->load->view('view_storitve');
 	}
 	
 	public function login()
@@ -20,7 +23,7 @@ class User extends CI_Controller {
 		$this->form_validation->set_rules('password', 'Password', 'required|trim|max_length[100]|xss_clean');
 		if($this->form_validation->run() == FALSE)
 		{
-			//$this->load_view('view_login');
+			$this->load_view('view_login');
 		}
 		else
 		{
@@ -28,16 +31,18 @@ class User extends CI_Controller {
 			$pswd = $this->input->post('password');
 			$u_id = $this->User_model->check_login($usr, $pswd);
 			if(!$u_id) //Login failed
-			{}
+			{
+				$this->load->view('view_login');
+			}
 			else
 			{
-				$this->session->set_userdata('logged_id', 'true');
+				$this->session->set_userdata('logged_in', 'true');
 				$this->session->set_userdata('uid', $u_id);
-				echo "User: ".$usr."<br>ID: ".$u_id."<br>Pass: ".$pswd;
+				//echo "User: ".$usr."<br>ID: ".$u_id."<br>Pass: ".$pswd;
+				//$this->load->view('view_storitve');
+				redirect('storitve');
 			}
 		}
 	}
+	
 }
-
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */

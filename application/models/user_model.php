@@ -19,7 +19,7 @@ class User_model extends CI_Model {
 	
 	public function get_subscriber_id($usr)
 	{
-		$qr_str = "select id from narocnik where id = select narocnik_id from uporabnik where id = ?";
+		$qr_str = "select id from narocnik where id = (select narocnik_id from uporabnik where id = ?)";
 		$result = $this->db->query($qr_str, array($usr));
 		if($result->num_rows() > 0)
 			return $result->row(0)->id;
