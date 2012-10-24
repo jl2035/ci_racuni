@@ -11,5 +11,4 @@
 	<br>
 	<?= form_submit(array('name' => 'submit', 'value' => 'Prijava'));
 	form_close(); ?>
-	<p class="footer">Stran naložena v <strong>{elapsed_time}</strong> s</p>
 	

@@ -3,7 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<title>Računi</title>
-
+	<?php 
+		if(!($this->session->userdata('logged_in') == 'true'))
+			$prijavljen = false;
+		else
+			$prijavljen = true;
+	
+	?>
 	<style type="text/css">
 
 	::selection{ background-color: #E13300; color: white; }
@@ -98,12 +104,23 @@
 <body>
 	<div id="j_glava">
 		<div id="j_nav"><?php $this->load->view('layout/nav'); ?></div>
-		<div id="j_user"><?= anchor('user/logout', 'Odjava'); ?></div>
+		<div id="j_user">
+			
+			<?php
+			if($prijavljen)
+				echo anchor('user/logout', 'Odjava'); 
+			?>
+			
+		</div>
 		<br>
 	</div>
 <div id="container">
-
-<?php $this->load->view($content); ?>
+<?php if($prijavljen)
+		$this->load->view($content); 
+	  else
+		//redirect('welcome');
+		$this->load->view('view_login');
+		?>
 
 
 	<p class="footer">Stran naložena v <strong>{elapsed_time}</strong> s</p>

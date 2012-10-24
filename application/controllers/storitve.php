@@ -2,32 +2,35 @@
 
 class Storitve extends CI_Controller {
 
+	public $s_id = -1;
+
 	public function __construct()
 	{
 		
 		parent::__construct();
 		$this->load->helper('form');
 		//$this->load->database();
-		
+		$this->s_id = $this->User_model->get_subscriber_id($this->session->userdata('uid'));
 	}
 
 	public function index()
 	{
-		$data['query'] = $this->db->get('storitev');
+		//$query = $this->db->get_where('mytable', array('id' => $id), $limit, $offset);
+		$data['query'] = $this->db->get_where('storitev', array('narocnik_id' => $this->s_id));
 		$data['content'] = 'view_storitve';
 		$this->load->view('layout/master', $data);
 	}
 
 	public function addnew()
 	{
-		$data['sid'] = $this->User_model->get_subscriber_id($this->session->userdata('uid'));
+		$data['sid'] = $this->s_id;
 		$data['content'] = 'dodaj_storitev';
 		$this->load->view('layout/master', $data);
 	}
 
 	public function insert()
 	{
-		$data['sid'] = $this->User_model->get_subscriber_id($this->session->userdata('uid'));
+		$data['sid'] = $this->s_id;
 		$this->form_validation->set_rules('naziv', 'Naziv', 'required|trim|max_length[500]|xss_clean');
 		$this->form_validation->set_rules('cena', 'Cena', 'required|numeric');
 		if(($this->form_validation->run() == FALSE))

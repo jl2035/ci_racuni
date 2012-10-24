@@ -1,7 +1,6 @@
 
 	<h1>Storitve</h1>
 
-
 	<table>
 		<tr>
 			<td>Storitev</td>
