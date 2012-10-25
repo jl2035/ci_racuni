@@ -1,11 +1,21 @@
 
-	<h1>Storitve</h1>
 
-	<table>
-		<tr>
-			<td>Storitev</td>
-			<td>Cena</td>
-		</tr>
+	
+	
+<div id="main_div">
+	<table width="600px">
+	<tr>
+		<td><h2 style="margin-left: 10px;">Storitve</h2></td>
+		<td><h3 style="margin-right: 10px; float: right;"><?= anchor('storitve/addnew', 'Dodaj storitev'); ?></h3></td>
+	</tr>
+	</table>
+	<table id="table-2">
+		<thead>
+			<th>Storitev</th>
+			<th>Cena</th>
+			<th></th>
+		</thead>
+		<tbody>
 	<?php 
 	
 		foreach($query->result() as $st_item)
@@ -13,8 +23,7 @@
 			echo "<tr><td>".$st_item->naziv."</td><td>".$st_item->cena."€ </td><td>".anchor('storitve/remove?stor_id='.$st_item->id, 'Odstrani')."</td></tr>";
 		}
 	?>		
+		</tbody>
 	</table>
-
-	<?= anchor('storitve/addnew', 'Dodaj storitev'); ?>
-	
+</div>
 
