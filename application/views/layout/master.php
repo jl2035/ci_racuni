@@ -144,6 +144,8 @@
 	#j_user
 	{
 		float: right;
+		margin-right: 10px;
+		padding-top: 5px;
 	}
 	.formtable
 	{

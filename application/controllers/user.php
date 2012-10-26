@@ -18,7 +18,7 @@ class User extends CI_Controller {
 		} //	$this->load->view('view_login');
 		else
 		{
-			redirect('storitve');
+			redirect('racuni');
 		} //	$this->load->view('view_storitve');
 	}
 	
@@ -54,7 +54,7 @@ class User extends CI_Controller {
 				$this->session->set_userdata('uid', $u_id);
 				//echo "User: ".$usr."<br>ID: ".$u_id."<br>Pass: ".$pswd;
 				//$this->load->view('view_storitve');
-				redirect('storitve');
+				redirect('racuni');
 			}
 		}
 	}
