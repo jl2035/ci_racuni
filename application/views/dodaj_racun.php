@@ -1,5 +1,6 @@
 
 	<h1>Dodaj račun</h1>
+	
 	<?php $atts = array('id' => 'form1');
 		echo form_open(base_url() . 'racuni/insert', $atts); ?>
 	<table class="formtable">
@@ -32,6 +33,42 @@
 	</table>
 	<br>
 	<input type="hidden" name="stors" id="stors">
+
+	
+	<?php 
+		$stranke_opt = array();
+		$stranke_opt['-1'] = 'Nova stranka';
+		foreach($stranke_q->result() as $stranka)
+		{
+			$stranke_opt[$stranka->id] = $stranka->naziv;
+		}
+	?>
+
+	<h1>Podatki o stranki</h1>
+	<?php
+	//$stranke_sel =  $this->input->post('stranka');
+	echo form_dropdown('stranka', $stranke_opt, $this->input->post('stranka'), 'id="stranka" onChange="this.form.submit();"');
+	 if ($this->input->post('stranka')) { ?>
+	<table>
+		<tr>
+			<td>Naziv</td>
+			<td><?= form_input('str_naziv', '', 'style="width: 100px;" id="kolicina"'); // array('id' => 'str_naziv', 'name' => 'str_naziv')); ?></td>
+		</tr>
+		<tr>
+			<td>Naslov</td>
+			<td><?= form_input('str_naslov', '', 'style="width: 150px;" id="kolicina"');  //array('id' => 'str_naslov', 'name' => 'str_naslov')); ?></td>
+		</tr>
+		<tr>
+			<td>Pošta</td>
+			<td><?= form_input('str_posta', '', 'style="width: 100px;" id="kolicina"');       //array('id' => 'str_posta', 'name' => 'str_posta')); ?></td>
+		</tr>
+	</table>
+	
+	<?php } ?>
+	
+	
+	<div style="border-bottom: 1px solid #D0D0D0;"><br></div>
+	<br>
 	<?php 
 	 echo form_hidden(array('sid' => $sid)); 
 	 //echo form_hidden(array('stors' => ''), 'id="stors"'); 
@@ -97,7 +134,7 @@
 	{
 		var select = document.getElementById('storitev');
 		var stors = document.getElementById('stors').value;
-		alert(stors);
+		//alert(stors);
 		var stors_arr = stors.split('|');
 		var out_str = "";
 		for(i=0; (i<stors_arr.length); i++)

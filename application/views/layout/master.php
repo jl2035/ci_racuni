@@ -27,6 +27,7 @@
 		color: #003399;
 		background-color: transparent;
 		font-weight: normal;
+		text-decoration: none;
 	}
 
 	h1 {

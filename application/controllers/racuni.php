@@ -37,25 +37,34 @@ class Racuni extends CI_Controller {
 		$data['sid'] = $this->s_id;
 		$data['content'] = 'dodaj_racun';
 		$data['storitve_q'] = $this->db->get_where('storitev', array('narocnik_id' => $this->s_id));
+		$data['stranke_q'] = $this->db->get_where('stranka', array('narocnik_id' => $this->s_id));
 		$this->load->view('layout/master', $data);
 	}
 	
 	public function insert()
 	{
-		$racun_item = array('datum' =>  time(), 'predracun' => $this->input->post('predracun'), 'narocnik_id' => $this->s_id);
-		$this->db->insert('racun', $racun_item);
-		$racun_id = $this->db->insert_id();
-		//echo $racun_id;
-		$stors = $this->input->post('stors');
-		//array split ( string $pattern , string $string [, int $limit = -1 ] )
-		$stors_arr = explode('|', $stors);
-		foreach($stors_arr as $sitem)
+		/*$this->form_validation->set_rules('stors', 'Storitve', 'required');
+		//$this->form_validation->set_rules('cena', 'Cena', 'required|numeric');
+		if(($this->form_validation->run() == FALSE))
 		{
-			$postavkaJS = explode(';', $sitem);
-			$postavka = array('storitev_id' => $postavkaJS[0], 'racun_id' => $racun_id, 'kolicina' => $postavkaJS[1]);
-			$this->db->insert('postavka', $postavka);
+			$data['content'] = 'dodaj_racun';
+			$this->load->view('layout/master', $data);
 		}
-		redirect('racuni');
+		else
+		{
+			$racun_item = array('datum' =>  time(), 'predracun' => $this->input->post('predracun'), 'narocnik_id' => $this->s_id);
+			$this->db->insert('racun', $racun_item);
+			$racun_id = $this->db->insert_id();
+			$stors = $this->input->post('stors');
+			$stors_arr = explode('|', $stors);
+			foreach($stors_arr as $sitem)
+			{
+				$postavkaJS = explode(';', $sitem);
+				$postavka = array('storitev_id' => $postavkaJS[0], 'racun_id' => $racun_id, 'kolicina' => $postavkaJS[1]);
+				$this->db->insert('postavka', $postavka);
+			}
+			redirect('racuni');
+		}*/
 	}
 	
 	
@@ -64,6 +73,11 @@ class Racuni extends CI_Controller {
 		$rac_id = $this->input->get('rac_id');
 		$this->db->delete('racun', array('id' => $rac_id));
 		redirect('racuni');
+	}
+	
+	public function show_single($rac_id)
+	{
+		$this->load->view('racun_single');
 	}
 }
 
