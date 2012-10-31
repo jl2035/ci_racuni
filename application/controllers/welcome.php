@@ -15,7 +15,7 @@ class Welcome extends CI_Controller {
 			$this->load->view('layout/master', $data);
 		}
 		else
-			redirect('storitve');
+			redirect('racuni');
 	}
 }
 

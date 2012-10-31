@@ -47,9 +47,9 @@
 	<h1>Podatki o stranki</h1>
 	<?php
 	//$stranke_sel =  $this->input->post('stranka');
-	echo form_dropdown('stranka', $stranke_opt, $this->input->post('stranka'), 'id="stranka" onChange="this.form.submit();"');
-	 if ($this->input->post('stranka')) { ?>
-	<table>
+	echo form_dropdown('stranka', $stranke_opt, $this->input->post('stranka'), 'id="stranka"');
+	 if (!$this->input->post('stranka') || $this->input->post('stranka') == '-1') { ?>
+	<table id="stranka_tbl">
 		<tr>
 			<td>Naziv</td>
 			<td><?= form_input('str_naziv', '', 'style="width: 100px;" id="kolicina"'); // array('id' => 'str_naziv', 'name' => 'str_naziv')); ?></td>
@@ -75,10 +75,9 @@
 	 echo form_submit(array('name' => 'submit', 'value' => 'Shrani')); 
 	 echo form_close(); 
 	?>
-	
-	
-	
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>	
 <script type="text/javascript">
+	
 	function dodajStor()
 	{
 		var kolicina = document.getElementById('kolicina').value;
@@ -154,6 +153,23 @@
 		}
 		return null;
 	}
+
+	$('#stranka').change(function()
+	{ //$('#test1').css('visibility', 'visible');
+		if($('#stranka').val() == '-1')
+			$('#stranka_tbl').css('visibility', 'visible');
+		else
+			$('#stranka_tbl').css('visibility', 'hidden');
+		/*$.post('http://localhost/ci_racuni/index.php/racuni/dodaj', 
+			function(data)
+			{
+				// do something here.
+				//$('#another_element').html(data);
+				//alert(data);
+				$('document').html(data);
+			}
+		);*/
+	});
 
 </script>
 

@@ -15,6 +15,7 @@ class Racuni extends CI_Controller {
 	public function index()
 	{
 		$racuni = $this->db->get('racun')->result();
+		//$racuni = $this->db->query("select racun.id, racun.datum, racun.predracun, racun.narocnik_id, stranka.id, stranka.naziv from racun join stranka on stranka.id = racun.stranka_id")->result();
 		$racuni_obj = array();
 		foreach($racuni as $r)
 		{
@@ -25,6 +26,8 @@ class Racuni extends CI_Controller {
 			$temp['narocnik_id'] = $r->narocnik_id;
 			$temp['predracun'] = $r->predracun;
 			$temp['postavke'] = $postavke;
+			$stranka_name = $this->db->query("SELECT naziv, id FROM stranka WHERE id=".$r->stranka_id)->result();
+			$temp['stranka'] = $stranka_name[0]->naziv;
 			$racuni_obj[] = $temp;
 		}
 		$data['racuni'] = $racuni_obj;
@@ -43,7 +46,7 @@ class Racuni extends CI_Controller {
 	
 	public function insert()
 	{
-		/*$this->form_validation->set_rules('stors', 'Storitve', 'required');
+		$this->form_validation->set_rules('stors', 'Storitve', 'required');
 		//$this->form_validation->set_rules('cena', 'Cena', 'required|numeric');
 		if(($this->form_validation->run() == FALSE))
 		{
@@ -52,7 +55,18 @@ class Racuni extends CI_Controller {
 		}
 		else
 		{
-			$racun_item = array('datum' =>  time(), 'predracun' => $this->input->post('predracun'), 'narocnik_id' => $this->s_id);
+			$stranka_post = $this->input->post('stranka');
+			if($stranka_post == -1)
+			{	
+				$stranka_item = array('naziv' => $this->input->post('str_naziv'), 'naslov' => $this->input->post('str_naslov'), 'narocnik_id' => $this->s_id, 'posta' => $this->input->post('str_posta'));
+				$this->db->insert('stranka', $stranka_item);
+				$stranka_id = $this->db->insert_id();
+			}
+			else
+			{
+				$stranka_id = $stranka_post;
+			}
+			$racun_item = array('datum' =>  time(), 'predracun' => $this->input->post('predracun'), 'narocnik_id' => $this->s_id, 'stranka_id' => $stranka_id);
 			$this->db->insert('racun', $racun_item);
 			$racun_id = $this->db->insert_id();
 			$stors = $this->input->post('stors');
@@ -64,7 +78,7 @@ class Racuni extends CI_Controller {
 				$this->db->insert('postavka', $postavka);
 			}
 			redirect('racuni');
-		}*/
+		}
 	}
 	
 	
@@ -75,9 +89,16 @@ class Racuni extends CI_Controller {
 		redirect('racuni');
 	}
 	
-	public function show_single($rac_id)
+	public function show_single($rac_id=null)
 	{
-		$this->load->view('racun_single');
+		if($rac_id == null)
+			echo "Error! Prosimo kontaktirajte Jakata :)";
+		else
+		{
+			$data['racun_id'] = $rac_id;
+			$this->load->view('racun_single', $data);
+		}
+		
 	}
 }
 

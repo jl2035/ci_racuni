@@ -43,8 +43,16 @@ class Stranke extends CI_Controller {
 	public function remove()
 	{
 		$str_id = $this->input->get('st_id');
-		$this->db->delete('stranka', array('id' => $str_id));
-		redirect('stranke');
+		$res = $this->db->get_where('racun', 'stranka_id = '.$str_id)->result();
+		if(count($res) > 0)
+		{
+			$data['j_error'] = "Najprej pobriši  vse račune, ki pripadajo tej stranki!";
+			$this->load->view('layout/error', $data);
+		}
+		else{
+			$this->db->delete('stranka', array('id' => $str_id));
+			redirect('stranke');
+		}
 	}
 }
 

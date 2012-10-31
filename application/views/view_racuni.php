@@ -12,7 +12,7 @@
 		?>
 		<table id="table-2">
 			<thead>
-				<th>ID</th><th>Datum</th><th>Znesek</th><th></th>
+				<th>ID</th><th>Datum</th><th>Stranka</th><th>Znesek</th><th></th>
 			</thead>
 			<tbody>
 		<?php
@@ -23,7 +23,7 @@
 			{
 				$znesek += ($postavka->cena * $postavka->kolicina);
 			}
-			echo '<tr><td>'.$racun['id'].'</td><td>'.date('j.n.Y', $racun['datum']).'</td><td>'.$znesek.'€</td><td>'.anchor('racuni/show_single?rac_id'.$racun['id'], 'Poglej').'&nbsp;|&nbsp;Uredi&nbsp;|&nbsp;'.anchor('racuni/remove?rac_id='.$racun['id'], 'Odstrani').'</td></tr>';
+			echo '<tr><td>'.$racun['id'].'</td><td>'.date('j.n.Y', $racun['datum']).'</td><td>'.$racun['stranka'].'</td><td>'.$znesek.'€</td><td>'.anchor('racuni/show_single/'.$racun['id'], 'Poglej').'&nbsp;|&nbsp;'.anchor('racuni/remove?rac_id='.$racun['id'], 'Odstrani').'</td></tr>';
 		}
 		echo '</tbody></table>';
 	}
