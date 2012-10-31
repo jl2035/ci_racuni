@@ -33,6 +33,7 @@ class Storitve extends CI_Controller {
 		$data['sid'] = $this->s_id;
 		$this->form_validation->set_rules('naziv', 'Naziv', 'required|trim|max_length[500]|xss_clean');
 		$this->form_validation->set_rules('cena', 'Cena', 'required|numeric');
+		$this->form_validation->set_rules('ddv', 'DDV', 'required|numeric');
 		if(($this->form_validation->run() == FALSE))
 		{
 			$data['content'] = 'dodaj_storitev';
@@ -40,7 +41,7 @@ class Storitve extends CI_Controller {
 		}
 		else
 		{
-			$stor_item = array('naziv' => $this->input->post('naziv'), 'cena' => $this->input->post('cena'), 'narocnik_id' => $data['sid']);
+			$stor_item = array('naziv' => $this->input->post('naziv'), 'cena' => $this->input->post('cena'), 'narocnik_id' => $data['sid'], 'ddv' => $this->input->post('ddv'));
 			$this->db->insert('storitev', $stor_item);
 			redirect('storitve');
 		}

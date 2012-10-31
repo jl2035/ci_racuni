@@ -13,6 +13,8 @@
 		<thead>
 			<th>Storitev</th>
 			<th>Cena</th>
+			<th>DDV</th>
+			<th>Cena z DDV</th>
 			<th></th>
 		</thead>
 		<tbody>
@@ -20,7 +22,7 @@
 	
 		foreach($query->result() as $st_item)
 		{
-			echo "<tr><td>".$st_item->naziv."</td><td>".$st_item->cena."€ </td><td>".anchor('storitve/remove?stor_id='.$st_item->id, 'Odstrani')."</td></tr>";
+			echo "<tr><td>".$st_item->naziv."</td><td>".$st_item->cena."€ </td><td>".$st_item->ddv."%</td><td>".(($st_item->cena) + ($st_item->cena * ($st_item->ddv / 100)))."€</td><td>".anchor('storitve/remove?stor_id='.$st_item->id, 'Odstrani')."</td></tr>";
 		}
 	?>		
 		</tbody>

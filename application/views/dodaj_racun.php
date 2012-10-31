@@ -23,7 +23,7 @@
 		echo '<td>'.form_dropdown('storitev', $options, '', 'id="storitev"').'</td>'; // 'large', $js);
 		echo '<td>'.form_input('kolicina', '1', 'style="width: 50px;" id="kolicina"').'<span id="kol_span" style="visibility: hidden; color: red;"> !!</span></td>';
 	?>
-	<td><div style="border-style: solid; cursor: pointer; padding-left: 2px; padding-right: 2px;" onclick="dodajStor()">Dodaj</div></td>
+	<td><div id="gumbDodaj" style="border-style: solid; cursor: pointer; padding-left: 2px; padding-right: 2px;">Dodaj</div></td>
 	</tr>
 	<tr>
 		<td colspan="3">
@@ -78,19 +78,18 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>	
 <script type="text/javascript">
 	
-	function dodajStor()
-	{
-		var kolicina = document.getElementById('kolicina').value;
+	$("#gumbDodaj").click(function()
+	{ 
+		var kolicina = $("#kolicina").val();
 		if(isNumeric(kolicina))
 		{
-			document.getElementById('kol_span').style.visibility = 'hidden';
-			elt = document.getElementById('storitev');
-			dodajPostavko(elt.value, kolicina);
+			$("#kol_span").css('visibility', 'hidden');
+			dodajPostavko($("#storitev").val(), kolicina);
 		}
 		else
-			document.getElementById('kol_span').style.visibility = 'visible';
-	}
-	
+			$("#kol_span").css('visibility', 'visible');
+	});
+		
 	function isNumeric(input)
 	{
 		var RE = /^-{0,1}\d*\.{0,1}\d+$/;
@@ -99,7 +98,7 @@
 
 	function dodajPostavko(val, kol)
 	{
-		var vse = document.getElementById('stors').value;
+		var vse = $("#stors").val();  //  document.getElementById('stors').value;
 		var arr = vse.split('|');
 		var found = false;
 		if(arr.length > 0 && arr[0].length > 0){
@@ -123,52 +122,45 @@
 		var str_all = "";
 		str_all += arr[0];
 		for(i=1; i<arr.length; i++)
-			str_all += "|"+arr[i];		
-		document.getElementById('stors').value = str_all;
+			str_all += "|"+arr[i];	
+		$("#stors").val(str_all);	
+		//document.getElementById('stors').value = str_all;
 		updateGUI();
 		//alert(str_all);
 	}
 	
 	function updateGUI()
 	{
-		var select = document.getElementById('storitev');
-		var stors = document.getElementById('stors').value;
-		//alert(stors);
+		//var select = document.getElementById('storitev');
+		var stors = $("#stors").val(); //document.getElementById('stors').value;
 		var stors_arr = stors.split('|');
 		var out_str = "";
 		for(i=0; (i<stors_arr.length); i++)
 		{	
 			var postavka = stors_arr[i].split(';');
-			out_str += "<br>"+getOptionText(select, postavka[0])+" - "+postavka[1]+"x";
+			var o_text = $("#storitev option[value='"+postavka[0]+"']").text();
+			out_str += "<br>"+o_text+" - "+postavka[1]+"x"; //
 		}
 		document.getElementById('postavke').innerHTML = out_str;
 	}
 
-	function getOptionText(selem, id)
+	/*function getOptionText(id)
 	{
+		alert("haha: "+id)
 		for(i=0; i<selem.options.length; i++)
 		{
 			if(selem.options[i].value == id)
 				return selem.options[i].text;
 		}
-		return null;
-	}
+		return '!';
+	}*/
 
 	$('#stranka').change(function()
-	{ //$('#test1').css('visibility', 'visible');
+	{ 
 		if($('#stranka').val() == '-1')
 			$('#stranka_tbl').css('visibility', 'visible');
 		else
 			$('#stranka_tbl').css('visibility', 'hidden');
-		/*$.post('http://localhost/ci_racuni/index.php/racuni/dodaj', 
-			function(data)
-			{
-				// do something here.
-				//$('#another_element').html(data);
-				//alert(data);
-				$('document').html(data);
-			}
-		);*/
 	});
 
 </script>
