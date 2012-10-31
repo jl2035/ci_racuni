@@ -96,6 +96,7 @@ class Racuni extends CI_Controller {
 		else
 		{
 			$data['racun_id'] = $rac_id;
+			$this->load->library('fpdf');
 			$this->load->view('racun_single', $data);
 		}
 		
