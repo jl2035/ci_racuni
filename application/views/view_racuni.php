@@ -21,7 +21,7 @@
 			$znesek = 0;
 			foreach($racun['postavke'] as $postavka)
 			{
-				$znesek += ($postavka->cena * $postavka->kolicina);
+				$znesek += ($postavka->cena + ($postavka->cena * ($postavka->ddv / 100)) * $postavka->kolicina);
 			}
 			echo '<tr><td>'.$racun['id'].'</td><td>'.date('j.n.Y', $racun['datum']).'</td><td>'.$racun['stranka'].'</td><td>'.$znesek.'€</td><td>'.anchor('racuni/show_single/'.$racun['id'], 'Poglej').'&nbsp;|&nbsp;'.anchor('racuni/remove?rac_id='.$racun['id'], 'Odstrani').'</td></tr>';
 		}

@@ -19,7 +19,7 @@ class Racuni extends CI_Controller {
 		$racuni_obj = array();
 		foreach($racuni as $r)
 		{
-			$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.naziv FROM postavka JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result();
+			$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv FROM postavka JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result();
 			$temp = array();
 			$temp['id'] = $r->id;
 			$temp['datum'] = $r->datum;
@@ -96,7 +96,24 @@ class Racuni extends CI_Controller {
 		else
 		{
 			$data['racun_id'] = $rac_id;
-			$this->load->library('fpdf');
+			$racuni = $this->db->get_where('racun', array('id' => $rac_id))->result();
+		    $r = $racuni[0];
+			if($r)
+			{
+				$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv FROM postavka JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result();
+				$temp = array();
+				$temp['id'] = $r->id;
+				$temp['datum'] = $r->datum;
+				$temp['narocnik_id'] = $r->narocnik_id;
+				$narocniki = $this->db->get_where('narocnik', array('id' => $r->narocnik_id))->result();  //$this->db->query("SELECT * FROM narocnik WHERE id=".$r->narocnik_id)->result();
+				$temp['narocnik'] = $narocniki[0];
+				$temp['predracun'] = $r->predracun;
+				$temp['postavke'] = $postavke;
+				$stranke = $this->db->get_where('stranka', array('id' => $r->stranka_id))->result(); //$this->db->query("SELECT * FROM stranka WHERE id=".$r->stranka_id)->result();
+				$temp['stranka'] = $stranke[0];
+				$data['racun'] = $temp;
+			}
+			$this->load->library('tcpdf');
 			$this->load->view('racun_single', $data);
 		}
 		
