@@ -12,6 +12,12 @@
 	<label>Pošta</label>
 	<?= form_input(array('id' => 'posta', 'name' => 'posta')); ?>
 	<br>
+	<label>Telefon</label>
+	<?= form_input(array('id' => 'telefon', 'name' => 'telefon')); ?>
+	<br>
+	<label>Email</label>
+	<?= form_input(array('id' => 'email', 'name' => 'email')); ?>
+	<br>
 	<?= form_hidden(array('sid' => $sid)); ?>
 	<?= form_submit(array('name' => 'submit', 'value' => 'Shrani')); ?>
 	

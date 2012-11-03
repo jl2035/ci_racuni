@@ -12,6 +12,11 @@
 			<td></td>
 		</tr>
 		<tr>
+			<td>Številka računa</td>
+			<td><?= form_input('st_racuna', 0, 'style="width: 50px;" id="st_racuna"'); ?></td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>Storitev</td>
 			<td>Kolicina</td>
 			<td></td>
@@ -52,15 +57,23 @@
 	<table id="stranka_tbl">
 		<tr>
 			<td>Naziv</td>
-			<td><?= form_input('str_naziv', '', 'style="width: 100px;" id="kolicina"'); // array('id' => 'str_naziv', 'name' => 'str_naziv')); ?></td>
+			<td><?= form_input('str_naziv', '', 'style="width: 100px;" id="str_naziv"'); // array('id' => 'str_naziv', 'name' => 'str_naziv')); ?></td>
 		</tr>
 		<tr>
 			<td>Naslov</td>
-			<td><?= form_input('str_naslov', '', 'style="width: 150px;" id="kolicina"');  //array('id' => 'str_naslov', 'name' => 'str_naslov')); ?></td>
+			<td><?= form_input('str_naslov', '', 'style="width: 150px;" id="str_naslov"');  //array('id' => 'str_naslov', 'name' => 'str_naslov')); ?></td>
 		</tr>
 		<tr>
 			<td>Pošta</td>
-			<td><?= form_input('str_posta', '', 'style="width: 100px;" id="kolicina"');       //array('id' => 'str_posta', 'name' => 'str_posta')); ?></td>
+			<td><?= form_input('str_posta', '', 'style="width: 100px;" id="str_posta"');       //array('id' => 'str_posta', 'name' => 'str_posta')); ?></td>
+		</tr>
+		<tr>
+			<td>Telefon</td>
+			<td><?= form_input('str_telefon', '', 'style="width: 100px;" id="str_telefon"');       //array('id' => 'str_posta', 'name' => 'str_posta')); ?></td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td><?= form_input('str_email', '', 'style="width: 100px;" id="str_email"');       //array('id' => 'str_posta', 'name' => 'str_posta')); ?></td>
 		</tr>
 	</table>
 	
@@ -75,11 +88,12 @@
 	 echo form_submit(array('name' => 'submit', 'value' => 'Shrani')); 
 	 echo form_close(); 
 	?>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>	
+<!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script-->
+<script type="text/javascript" src="http://localhost/jquery.js"></script>	
 <script type="text/javascript">
 	
 	$("#gumbDodaj").click(function()
-	{ 
+	{
 		var kolicina = $("#kolicina").val();
 		if(isNumeric(kolicina))
 		{
@@ -98,7 +112,7 @@
 
 	function dodajPostavko(val, kol)
 	{
-		var vse = $("#stors").val();  //  document.getElementById('stors').value;
+		var vse = $("#stors").val(); 
 		var arr = vse.split('|');
 		var found = false;
 		if(arr.length > 0 && arr[0].length > 0){
@@ -124,15 +138,12 @@
 		for(i=1; i<arr.length; i++)
 			str_all += "|"+arr[i];	
 		$("#stors").val(str_all);	
-		//document.getElementById('stors').value = str_all;
 		updateGUI();
-		//alert(str_all);
 	}
 	
 	function updateGUI()
 	{
-		//var select = document.getElementById('storitev');
-		var stors = $("#stors").val(); //document.getElementById('stors').value;
+		var stors = $("#stors").val(); 
 		var stors_arr = stors.split('|');
 		var out_str = "";
 		for(i=0; (i<stors_arr.length); i++)
@@ -143,17 +154,6 @@
 		}
 		document.getElementById('postavke').innerHTML = out_str;
 	}
-
-	/*function getOptionText(id)
-	{
-		alert("haha: "+id)
-		for(i=0; i<selem.options.length; i++)
-		{
-			if(selem.options[i].value == id)
-				return selem.options[i].text;
-		}
-		return '!';
-	}*/
 
 	$('#stranka').change(function()
 	{ 

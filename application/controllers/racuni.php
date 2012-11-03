@@ -13,7 +13,7 @@ class Racuni extends CI_Controller {
 
 	public function index()
 	{
-		$racuni = $this->db->get('racun')->result();
+		$racuni = $this->db->get_where('racun', array('narocnik_id' => $this->s_id))->result();
 		//$racuni = $this->db->query("select racun.id, racun.datum, racun.predracun, racun.narocnik_id, stranka.id, stranka.naziv from racun join stranka on stranka.id = racun.stranka_id")->result();
 		$racuni_obj = array();
 		foreach($racuni as $r)
@@ -22,6 +22,7 @@ class Racuni extends CI_Controller {
 			$temp = array();
 			$temp['id'] = $r->id;
 			$temp['datum'] = $r->datum;
+			$temp['st_racuna'] = $r->st_racuna;
 			$temp['narocnik_id'] = $r->narocnik_id;
 			$temp['predracun'] = $r->predracun;
 			$temp['postavke'] = $postavke;
@@ -46,6 +47,7 @@ class Racuni extends CI_Controller {
 	public function insert()
 	{
 		$this->form_validation->set_rules('stors', 'Storitve', 'required');
+		$this->form_validation->set_rules('st_racuna', 'Št. računa', 'required');
 		//$this->form_validation->set_rules('cena', 'Cena', 'required|numeric');
 		if(($this->form_validation->run() == FALSE))
 		{
@@ -57,7 +59,7 @@ class Racuni extends CI_Controller {
 			$stranka_post = $this->input->post('stranka');
 			if($stranka_post == -1)
 			{	
-				$stranka_item = array('naziv' => $this->input->post('str_naziv'), 'naslov' => $this->input->post('str_naslov'), 'narocnik_id' => $this->s_id, 'posta' => $this->input->post('str_posta'));
+				$stranka_item = array('naziv' => $this->input->post('str_naziv'), 'naslov' => $this->input->post('str_naslov'), 'narocnik_id' => $this->s_id, 'posta' => $this->input->post('str_posta'), 'telefon' => $this->input->post('telefon'), 'email' => $this->input->post('email'));
 				$this->db->insert('stranka', $stranka_item);
 				$stranka_id = $this->db->insert_id();
 			}
@@ -65,7 +67,7 @@ class Racuni extends CI_Controller {
 			{
 				$stranka_id = $stranka_post;
 			}
-			$racun_item = array('datum' =>  time(), 'predracun' => ($this->input->post('predracun') == 'on' ? 1 : 0), 'narocnik_id' => $this->s_id, 'stranka_id' => $stranka_id);
+			$racun_item = array('datum' =>  time(), 'predracun' => ($this->input->post('predracun') == 'on' ? 1 : 0), 'narocnik_id' => $this->s_id, 'stranka_id' => $stranka_id, 'st_racuna' => $this->input->post('st_racuna'));
 			$this->db->insert('racun', $racun_item);
 			$racun_id = $this->db->insert_id();
 			$stors = $this->input->post('stors');
@@ -102,6 +104,7 @@ class Racuni extends CI_Controller {
 				$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv FROM postavka JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result();
 				$temp = array();
 				$temp['id'] = $r->id;
+				$temp['st_racuna'] = $r->st_racuna;
 				$temp['datum'] = $r->datum;
 				$temp['narocnik_id'] = $r->narocnik_id;
 				$narocniki = $this->db->get_where('narocnik', array('id' => $r->narocnik_id))->result();  //$this->db->query("SELECT * FROM narocnik WHERE id=".$r->narocnik_id)->result();

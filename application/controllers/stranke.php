@@ -34,6 +34,8 @@ class Stranke extends CI_Controller {
 		$str['narocnik_id'] = $this->input->post('sid');
 		$str['naslov'] = $this->input->post('naslov');
 		$str['posta'] = $this->input->post('posta');
+		$str['telefon'] = $this->input->post('telefon');
+		$str['email'] = $this->input->post('email');
 		$this->db->insert('stranka', $str);
 		redirect('stranke');
 	}
