@@ -1811,18 +1811,18 @@ class TCPDF {
 			mb_internal_encoding('ASCII');
 		}
 		// get array of HTML colors
-		require(dirname(__FILE__).'/htmlcolors.php');
+		require(dirname(__FILE__).'/tc/htmlcolors.php');
 		$this->webcolor = $webcolor;
 		// get array of custom spot colors
-		if (file_exists(dirname(__FILE__).'/spotcolors.php')) {
-			require(dirname(__FILE__).'/spotcolors.php');
+		if (file_exists(dirname(__FILE__).'/tc/spotcolors.php')) {
+			require(dirname(__FILE__).'/tc/spotcolors.php');
 			$this->spotcolor = $spotcolor;
 		} else {
 			$this->spotcolor = array();
 		}
-		require_once(dirname(__FILE__).'/unicode_data.php');
+		require_once(dirname(__FILE__).'/tc/unicode_data.php');
 		$this->unicode = new TCPDF_UNICODE_DATA();
-		require_once(dirname(__FILE__).'/encodings_maps.php');
+		require_once(dirname(__FILE__).'/tc/encodings_maps.php');
 		$this->encmaps = new TCPDF_ENCODING_MAPS();
 		$this->font_obj_ids = array();
 		$this->page_obj_id = array();
@@ -9045,7 +9045,7 @@ class TCPDF {
 	 * @protected
 	 */
 	protected function _getfontpath() {
-		if (!defined('K_PATH_FONTS') AND is_dir(dirname(__FILE__).'/fonts')) {
+		if (!defined('K_PATH_FONTS') AND is_dir(dirname(__FILE__).'/tc/fonts')) {
 			define('K_PATH_FONTS', dirname(__FILE__).'/fonts/');
 		}
 		return defined('K_PATH_FONTS') ? K_PATH_FONTS : '';
@@ -12731,7 +12731,7 @@ class TCPDF {
 		// if required, add standard sRGB_IEC61966-2.1 blackscaled ICC colour profile
 		if ($this->pdfa_mode OR $this->force_srgb) {
 			$iccobj = $this->_newobj();
-			$icc = file_get_contents(dirname(__FILE__).'/sRGB.icc');
+			$icc = file_get_contents(dirname(__FILE__).'/tc/sRGB.icc');
 			$filter = '';
 			if ($this->compress) {
 				$filter = ' /Filter /FlateDecode';
@@ -19798,7 +19798,7 @@ class TCPDF {
 		if ($this->empty_string(trim($code))) {
 			return;
 		}
-		require_once(dirname(__FILE__).'/barcodes.php');
+		require_once(dirname(__FILE__).'/tc/barcodes.php');
 		// save current graphic settings
 		$gvars = $this->getGraphicVars();
 		// create new barcode object
@@ -20169,7 +20169,7 @@ class TCPDF {
 		if ($this->empty_string(trim($code))) {
 			return;
 		}
-		require_once(dirname(__FILE__).'/2dbarcodes.php');
+		require_once(dirname(__FILE__).'/tc/2dbarcodes.php');
 		// save current graphic settings
 		$gvars = $this->getGraphicVars();
 		// create new barcode object

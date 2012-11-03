@@ -24,6 +24,14 @@
 			<td><?= form_input('email', $email); ?></td>
 		</tr>
 		<tr>
+			<td>TRR</td>
+			<td><?= form_input('trr', $trr); ?></td>
+		</tr>
+		<tr>
+			<td>TRR odprt pri banki</td>
+			<td><?= form_input('banka', $banka); ?></td>
+		</tr>
+		<tr>
 			<td colspan="2">
 				<?= form_submit('submit', 'Shrani') ?>
 			</td>

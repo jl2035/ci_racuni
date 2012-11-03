@@ -1,4 +1,3 @@
-
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Nastavitve extends CI_Controller {
@@ -22,6 +21,8 @@ class Nastavitve extends CI_Controller {
 			$data['posta'] = $sub_data[0]->posta;
 			$data['telefon'] = $sub_data[0]->telefon;
 			$data['email'] = $sub_data[0]->email;
+			$data['trr'] = $sub_data[0]->trr;
+			$data['banka'] = $sub_data[0]->banka;
 			$data['content'] = 'view_nastavitve';
 			$this->load->view('layout/master', $data);
 		}
@@ -36,6 +37,8 @@ class Nastavitve extends CI_Controller {
 		$me['posta'] = $this->input->post('posta');
 		$me['email'] = $this->input->post('email');
 		$me['telefon'] = $this->input->post('telefon');
+		$me['trr'] = $this->input->post('trr');
+		$me['banka'] = $this->input->post('banka');
 		$this->db->where('id', $this->s_id);
 		$this->db->update('narocnik', $me);
 		redirect('racuni');

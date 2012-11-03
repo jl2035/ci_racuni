@@ -1,4 +1,3 @@
-
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Racuni extends CI_Controller {
@@ -66,7 +65,7 @@ class Racuni extends CI_Controller {
 			{
 				$stranka_id = $stranka_post;
 			}
-			$racun_item = array('datum' =>  time(), 'predracun' => $this->input->post('predracun'), 'narocnik_id' => $this->s_id, 'stranka_id' => $stranka_id);
+			$racun_item = array('datum' =>  time(), 'predracun' => ($this->input->post('predracun') == 'on' ? 1 : 0), 'narocnik_id' => $this->s_id, 'stranka_id' => $stranka_id);
 			$this->db->insert('racun', $racun_item);
 			$racun_id = $this->db->insert_id();
 			$stors = $this->input->post('stors');
