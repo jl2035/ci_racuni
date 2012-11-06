@@ -20,8 +20,8 @@ $html.= '<br><strong>'.$racun_beseda.' št.: '.$racun['st_racuna'].'</strong><br
 
 $table2 = '<table cellpadding="2px"><tr style="background-color: #DCDCFF;"><td style="width: 20px;">ID</td><td style="width: 170px;">Storitev</td><td style="width: 60px;">Cena</td><td>DDV</td><td>Cena z DDV</td><td style="width: 60px;">Kolicina</td><td>Znesek</td></tr>';
 //$table2 = '<table><thead><th>ID</th><th>Storitev</th><th>Cena</th><th>DDV</th><th>Cena z DDV</th><th>Kolicina</th><th>Znesek</th></thead><tbody>';
-$skupajZDVV = 0;
-$skupajBrezDDV = 0;
+/*$skupajZDVV = 0;
+$skupajBrezDDV = 0;*/
 $barva = '#FFFFF0';
 foreach($racun['postavke'] as $postavka)
 {
@@ -30,13 +30,13 @@ foreach($racun['postavke'] as $postavka)
 	else
 		$barva = '#FFFFF0';
 	$cenaZDDV = $postavka->cena + ($postavka->cena * ($postavka->ddv / 100));
-	$skupajBrezDDV += $postavka->cena * $postavka->kolicina;
+	//$skupajBrezDDV += $postavka->cena * $postavka->kolicina;
 	$znesekP = $cenaZDDV * $postavka->kolicina;
-	$skupajZDVV += $znesekP;
+	//$skupajZDVV += $znesekP;
 	$table2 .= '<tr style="background-color: '.$barva.';"><td>'.$postavka->storitev_id.'</td><td>'.$postavka->naziv.'</td><td>'.$postavka->cena.
 	'</td><td>'.$postavka->ddv.'%</td><td>'.$cenaZDDV.'</td><td>'.$postavka->kolicina.'</td><td>'.$znesekP.'</td></tr>';
 }
-$table2 .= '<tr style="background-color: #DCDCFF;"><td colspan="2">&nbsp;</td><td colspan="3">Skupaj brez DDV: '.$skupajBrezDDV.'€</td><td colspan="2"><strong>Znesek: '.$skupajZDVV.'€</strong></td></tr>';
+$table2 .= '<tr style="background-color: #DCDCFF;"><td colspan="2">&nbsp;</td><td colspan="3">Skupaj brez DDV: '.$racun['znesekBrezDDV'].'€</td><td colspan="2"><strong>Znesek: '.$racun['znesek'].'€</strong></td></tr>';
 // postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv
 //$table2 .= '</tbody></table>';
 $table2 .= '</table><br>';

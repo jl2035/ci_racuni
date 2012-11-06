@@ -17,6 +17,17 @@ class Welcome extends CI_Controller {
 		else
 			redirect('racuni');
 	}
+	
+	public function test()
+	{
+		$this->load->model('Racun_model');
+		$nr1 = $this->Racun_model->get_znesek(24);
+		$nr2 = $this->Racun_model->get_znesek(24, 1, 1);
+		$nr3 = $this->Racun_model->get_znesek(24, 1, 0);
+		$nr4 = $this->Racun_model->get_znesek(24, 0, 0);
+		$nr5 = $this->Racun_model->get_znesek(24, 0, 1);
+		echo "vse: $nr1<br>t, t: $nr2<br>t, f: $nr3<br>f, f: $nr4<br>f, t: $nr5";
+	}
 }
 
 /* End of file welcome.php */

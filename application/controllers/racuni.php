@@ -9,6 +9,7 @@ class Racuni extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('form');
 		$this->s_id = $this->User_model->get_subscriber_id($this->session->userdata('uid'));
+		$this->load->model('Racun_model');
 	}
 
 	public function index()
@@ -25,6 +26,7 @@ class Racuni extends CI_Controller {
 			$temp['st_racuna'] = $r->st_racuna;
 			$temp['narocnik_id'] = $r->narocnik_id;
 			$temp['predracun'] = $r->predracun;
+			$temp['znesek'] = $this->Racun_model->get_znesek($r->id);
 			$temp['postavke'] = $postavke;
 			$stranka_name = $this->db->query("SELECT naziv, id FROM stranka WHERE id=".$r->stranka_id)->result();
 			$temp['stranka'] = $stranka_name[0]->naziv;
@@ -82,18 +84,21 @@ class Racuni extends CI_Controller {
 		}
 	}
 	
-	
 	public function remove()
 	{
 		$rac_id = $this->input->get('rac_id');
 		$this->db->delete('racun', array('id' => $rac_id));
+		$postavs = $this->db->get_where('postavka', array('racun_id' => $rac_id))->result();
+		foreach($postavs as $pp)
+			$this->db->delete('popust', array('postavka_id' => $pp->id));
+		$this->db->delete('postavka', array('racun_id' => $rac_id));
 		redirect('racuni');
 	}
 	
 	public function show_single($rac_id=null)
 	{
 		if($rac_id == null)
-			echo "Error! Prosimo kontaktirajte Jakata :)";
+			echo "Prišlo je do napake! Prosimo kontaktirajte Jakata :)";
 		else
 		{
 			$data['racun_id'] = $rac_id;
@@ -111,6 +116,8 @@ class Racuni extends CI_Controller {
 				$temp['narocnik'] = $narocniki[0];
 				$temp['predracun'] = $r->predracun;
 				$temp['postavke'] = $postavke;
+				$temp['znesek'] = $this->Racun_model->get_znesek($r->id, true, true);
+				$temp['znesekBrezDDV'] = $this->Racun_model->get_znesek($r->id, false, true);
 				$stranke = $this->db->get_where('stranka', array('id' => $r->stranka_id))->result(); //$this->db->query("SELECT * FROM stranka WHERE id=".$r->stranka_id)->result();
 				$temp['stranka'] = $stranke[0];
 				$data['racun'] = $temp;
@@ -120,6 +127,36 @@ class Racuni extends CI_Controller {
 		}
 		
 	}
+
+	public function editing($rac_id=null)
+	{
+		if($rac_id == null)
+			die("Prišlo je do napake! Prosimo kontaktirajte Jakata :)");
+		$data['racun_id'] = $rac_id;
+		$racuni = $this->db->get_where('racun', array('id' => $rac_id))->result();
+		$r = $racuni[0];
+		if($r)
+		{
+			$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv FROM postavka JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result();
+			$temp = array();
+			$temp['id'] = $r->id;
+			$temp['st_racuna'] = $r->st_racuna;
+			$temp['datum'] = $r->datum;
+			$temp['narocnik_id'] = $r->narocnik_id;
+			$narocniki = $this->db->get_where('narocnik', array('id' => $r->narocnik_id))->result();  //$this->db->query("SELECT * FROM narocnik WHERE id=".$r->narocnik_id)->result();
+			$temp['narocnik'] = $narocniki[0];
+			$temp['predracun'] = $r->predracun;
+			$temp['postavke'] = $postavke;
+			$temp['znesek'] = $this->Racun_model->get_znesek($r->id, true, true);
+			$temp['znesekBrezDDV'] = $this->Racun_model->get_znesek($r->id, false, true);
+			$stranke = $this->db->get_where('stranka', array('id' => $r->stranka_id))->result(); //$this->db->query("SELECT * FROM stranka WHERE id=".$r->stranka_id)->result();
+			$temp['stranka'] = $stranke[0];
+			$data['racun'] = $temp;
+		}
+		$this->load->library('tcpdf');
+		$this->load->view('racun_single', $data);
+	}
+
 }
 
 
