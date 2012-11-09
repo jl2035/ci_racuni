@@ -12,14 +12,15 @@ class Racun_model extends CI_Model {
 		$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, 
 		                             storitev.ddv, storitev.naziv 
 		                             FROM postavka 
-		                             JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result_array();
-		foreach($postavke as $post_avk)
+		                             JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r_id)->result_array();
+		for($i=0; $i<count($postavke); $i++)                             
+		//foreach($postavke as $post_avk)
 		{
-			$popusti = $this->db->get_where('popust', array('postavka_id' => $post_avk->id))->result();
-			$skupajPopusta = 0;
-			foreach($popusti as $p)
-				$skupajPopusta += $p->vrednost;
-			$post_avk['skupajPopusta'] = $skupajPopusta;
+			$popusti = $this->db->get_where('popust', array('postavka_id' => $postavke[$i]['id']))->result_array();
+			if(count($popusti) > 0)
+				$postavke[$i]['popusti'] = $popusti;
+			else
+				$postavke[$i]['popusti'] = array();
 		}
 		return $postavke;
 	}

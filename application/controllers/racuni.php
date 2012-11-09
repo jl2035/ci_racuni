@@ -137,7 +137,7 @@ class Racuni extends CI_Controller {
 		$r = $racuni[0];
 		if($r)
 		{
-			$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv FROM postavka JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result();
+			$postavke = $this->Racun_model->get_postavke_arr($rac_id);
 			$temp = array();
 			$temp['id'] = $r->id;
 			$temp['st_racuna'] = $r->st_racuna;
@@ -153,8 +153,23 @@ class Racuni extends CI_Controller {
 			$temp['stranka'] = $stranke[0];
 			$data['racun'] = $temp;
 		}
+		else
+			die("Prišlo je do napake! Prosimo kontaktirajte Jakata :)");
 		$this->load->library('tcpdf');
-		$this->load->view('racun_single', $data);
+		$data['content'] = 'edit_racun';
+		$this->load->view('layout/master', $data);
+	}
+
+	public function odstrani_popust($pop_id, $rac_id)
+	{
+		$this->db->delete('popust', array('id' => $pop_id));
+		redirect('racuni/editing/'.$rac_id);
+	}
+	
+	public function dodaj_popust()
+	{
+		$this->db->insert('popust', array('postavka_id' => $this->input->post('postavka_id'), 'vrednost' => $this->input->post('vrednost')));
+		redirect('racuni/editing/'.$this->input->post('racun_id'));
 	}
 
 }

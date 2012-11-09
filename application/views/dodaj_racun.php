@@ -16,26 +16,32 @@
 			<td><?= form_input('st_racuna', 0, 'style="width: 50px;" id="st_racuna"'); ?></td>
 			<td></td>
 		</tr>
+		<tr><td colspan="3">&nbsp;</td></tr>
+		</table>
+		<table style="background-color: #CACACA;">
 		<tr>
 			<td>Storitev</td>
+			<td>Šifra</td>
 			<td>Kolicina</td>
 			<td></td>
 		</tr>
 		<tr>
-	<?php 
-		foreach($storitve_q->result() as $storitev)
-			$options[$storitev->id] = $storitev->naziv;
-		echo '<td>'.form_dropdown('storitev', $options, '', 'id="storitev"').'</td>'; // 'large', $js);
-		echo '<td>'.form_input('kolicina', '1', 'style="width: 50px;" id="kolicina"').'<span id="kol_span" style="visibility: hidden; color: red;"> !!</span></td>';
-	?>
-	<td><div id="gumbDodaj" style="border-style: solid; cursor: pointer; padding-left: 2px; padding-right: 2px;">Dodaj</div></td>
-	</tr>
-	<tr>
-		<td colspan="3">
+			<?php 
+				foreach($storitve_q->result() as $storitev)
+					$options[$storitev->id] = $storitev->naziv;
+				echo '<td>'.form_dropdown('storitev', $options, '', 'id="storitev"').'</td>'; // 'large', $js);
+				echo '<td><input type="text" id="sifra" name="sifra" style="width: 25px"></td>';
+				echo '<td>'.form_input('kolicina', '1', 'style="width: 50px;" id="kolicina"').'<span id="kol_span" style="visibility: hidden; color: red;"> !!</span></td>';
+			?>
+			<td><div id="gumbDodaj" style="border-style: solid; cursor: pointer; padding-left: 2px; padding-right: 2px;">Dodaj</div></td>
+		</tr>
+		<tr>	
+			<td colspan="4">
 			<div id="postavke"></div>
-		</td>
-	</tr>
-	</table>
+			</td>
+		</tr>
+
+		</table>
 	<br>
 	<input type="hidden" name="stors" id="stors">
 
@@ -88,8 +94,8 @@
 	 echo form_submit(array('name' => 'submit', 'value' => 'Shrani')); 
 	 echo form_close(); 
 	?>
-<!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script-->
-<script type="text/javascript" src="http://localhost/jquery.js"></script>	
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<!--script type="text/javascript" src="http://localhost/jquery.js"></script-->	
 <script type="text/javascript">
 	
 	$("#gumbDodaj").click(function()
@@ -103,6 +109,18 @@
 		else
 			$("#kol_span").css('visibility', 'visible');
 	});
+	
+	$('#storitev').change(function()
+	{
+		$('#sifra').val($('#storitev').val());
+	});
+		
+	$('#sifra').keyup(function()
+	{
+		var sfr = $('#sifra').val();
+		$('#storitev option[value="'+sfr+'"]').prop('selected', true);
+	});
+		
 		
 	function isNumeric(input)
 	{

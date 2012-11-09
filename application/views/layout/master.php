@@ -158,7 +158,7 @@
 	}
 	#main_div
 	{
-		width: 600px;
+		width: 700px;
 	}
 	#everything
 	{

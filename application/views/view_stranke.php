@@ -18,7 +18,7 @@
 	
 		foreach($stranke->result() as $st_item)
 		{
-			echo "<tr><td>".$st_item->naziv."</td><td>".$st_item->naslov."</td><td>".$st_item->posta."</td><td>".anchor('stranke/remove?st_id='.$st_item->id, 'Odstrani')."</td></tr>";
+			echo "<tr><td>".$st_item->naziv."</td><td>".$st_item->naslov."</td><td>".$st_item->posta."</td><td>".anchor('stranke/remove?st_id='.$st_item->id, '<img src="'.base_url().'assets/images/odstrani.png" title="Odstrani">')."</td></tr>";
 		}
 	?>		
 		</tbody>

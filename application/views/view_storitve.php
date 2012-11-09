@@ -23,7 +23,7 @@
 	
 		foreach($query->result() as $st_item)
 		{
-			echo "<tr><td>".$st_item->id."</td><td>".$st_item->naziv."</td><td>".$st_item->cena."€ </td><td>".$st_item->ddv."%</td><td>".(($st_item->cena) + ($st_item->cena * ($st_item->ddv / 100)))."€</td><td>".anchor('storitve/remove?stor_id='.$st_item->id, 'Odstrani')."</td></tr>";
+			echo "<tr><td>".$st_item->id."</td><td>".$st_item->naziv."</td><td>".$st_item->cena."€ </td><td>".$st_item->ddv."%</td><td>".(($st_item->cena) + ($st_item->cena * ($st_item->ddv / 100)))."€</td><td>".anchor('storitve/remove?stor_id='.$st_item->id, '<img title="Odstrani" src="'.base_url().'assets/images/odstrani.png">')."</td></tr>";
 		}
 	?>		
 		</tbody>
