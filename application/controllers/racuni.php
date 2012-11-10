@@ -106,7 +106,15 @@ class Racuni extends CI_Controller {
 		    $r = $racuni[0];
 			if($r)
 			{
-				$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv FROM postavka JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result();
+				$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv FROM postavka JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result_array();
+				for($j=0; $j<count($postavke); $j++)
+				{
+					$skupajPop = 0;
+					$popusti = $this->db->query("SELECT vrednost FROM popust WHERE postavka_id = ?", array($postavke[$j]['id']))->result_array();
+					foreach($popusti as $pop)
+						$skupajPop += $pop['vrednost'];
+					$postavke[$j]['skupajPopusta'] = $skupajPop;
+				}
 				$temp = array();
 				$temp['id'] = $r->id;
 				$temp['st_racuna'] = $r->st_racuna;
@@ -171,7 +179,10 @@ class Racuni extends CI_Controller {
 		$this->db->insert('popust', array('postavka_id' => $this->input->post('postavka_id'), 'vrednost' => $this->input->post('vrednost')));
 		redirect('racuni/editing/'.$this->input->post('racun_id'));
 	}
+	
+	public function update_predracun($rac_id, $value)
+	{
+		$this->db->query("UPDATE racun SET predracun = ? WHERE id = ?", array($value, $rac_id));
+	}
 
 }
-
-

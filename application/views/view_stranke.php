@@ -1,9 +1,9 @@
 
 <div id="main_div">
-	<table width="600px">
+	<table width="700px">
 	<tr>
 		<td><h2 style="margin-left: 10px;">Stranke</h2></td>
-		<td><h3 style="margin-right: 10px; float: right;"><?= anchor('stranke/dodaj', 'Dodaj stranko'); ?></h3></td>
+		<td><h3 style="margin-right: 10px; float: right;"><?= anchor('stranke/dodaj', '<img src="'.base_url().'assets/images/dodaj.png"> Dodaj stranko'); ?></h3></td>
 	</tr>
 	</table>
 	<table id="table-2">

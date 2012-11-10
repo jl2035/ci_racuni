@@ -18,7 +18,15 @@ $racun_beseda = $racun['predracun'] == 1 ? 'Predračun' : 'Račun';
 $html.= '<br><strong>'.$racun_beseda.' št.: '.$racun['st_racuna'].'</strong><br><br><br>';
 //$pdf->writeHTMLCell($w=0, $h=0, $x='', $y='', $table1, $border=1, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
 
-$table2 = '<table cellpadding="2px"><tr style="background-color: #DCDCFF;"><td style="width: 20px;">ID</td><td style="width: 170px;">Storitev</td><td style="width: 60px;">Cena</td><td>DDV</td><td>Cena z DDV</td><td style="width: 60px;">Kolicina</td><td>Znesek</td></tr>';
+$table2 = '<table cellpadding="2px"><tr style="background-color: #DCDCFF;">
+               <td style="width: 20px;">ID</td>
+               <td style="width: 170px;">Storitev</td>
+               <td style="width: 53px;">Kolicina</td>
+               <td style="width: 45px;">Cena</td>
+               <td style="width: 47px;">DDV</td>
+               <td>Cena z DDV</td>
+               <td style="width: 47px;">Popust</td>
+               <td style="width: 57px;">Znesek</td></tr>';
 //$table2 = '<table><thead><th>ID</th><th>Storitev</th><th>Cena</th><th>DDV</th><th>Cena z DDV</th><th>Kolicina</th><th>Znesek</th></thead><tbody>';
 /*$skupajZDVV = 0;
 $skupajBrezDDV = 0;*/
@@ -29,14 +37,15 @@ foreach($racun['postavke'] as $postavka)
 		$barva = '#FFFFF2';
 	else
 		$barva = '#FFFFF0';
-	$cenaZDDV = $postavka->cena + ($postavka->cena * ($postavka->ddv / 100));
+	$cenaZDDV = $postavka['cena'] + ($postavka['cena'] * ($postavka['ddv'] / 100));
 	//$skupajBrezDDV += $postavka->cena * $postavka->kolicina;
-	$znesekP = $cenaZDDV * $postavka->kolicina;
+	$znesekP = $cenaZDDV * $postavka['kolicina'];
 	//$skupajZDVV += $znesekP;
-	$table2 .= '<tr style="background-color: '.$barva.';"><td>'.$postavka->storitev_id.'</td><td>'.$postavka->naziv.'</td><td>'.$postavka->cena.
-	'</td><td>'.$postavka->ddv.'%</td><td>'.$cenaZDDV.'</td><td>'.$postavka->kolicina.'</td><td>'.$znesekP.'</td></tr>';
+	$znesekP = $znesekP - ($znesekP * ($postavka['skupajPopusta'] / 100));
+	$table2 .= '<tr style="background-color: '.$barva.';"><td>'.$postavka['storitev_id'].'</td><td>'.$postavka['naziv'].'</td><td>'.$postavka['kolicina'].
+	'</td><td>'.$postavka['cena'].'€</td><td>'.$postavka['ddv'].'%</td><td>'.$cenaZDDV.'€</td><td>'.$postavka['skupajPopusta'].'%</td><td>'.$znesekP.'€</td></tr>';
 }
-$table2 .= '<tr style="background-color: #DCDCFF;"><td colspan="2">&nbsp;</td><td colspan="3">Skupaj brez DDV: '.$racun['znesekBrezDDV'].'€</td><td colspan="2"><strong>Znesek: '.$racun['znesek'].'€</strong></td></tr>';
+$table2 .= '<tr style="background-color: #DCDCFF;"><td colspan="2">&nbsp;</td><td colspan="3">Skupaj brez DDV: '.$racun['znesekBrezDDV'].'€</td><td></td><td colspan="2"><strong>Znesek: '.$racun['znesek'].'€</strong></td></tr>';
 // postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv
 //$table2 .= '</tbody></table>';
 $table2 .= '</table><br>';

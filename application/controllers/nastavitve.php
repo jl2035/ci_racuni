@@ -43,5 +43,40 @@ class Nastavitve extends CI_Controller {
 		$this->db->update('narocnik', $me);
 		redirect('racuni');
 	}
+	
+	public function sprememba_gesla()
+	{
+		$data['content'] = 'spremembagesla_view';
+		$this->load->view('layout/master', $data);
+	} 
+	
+	public function geslo_update()
+	{
+		$uid = $this->session->userdata('uid');
+		$pass1 = $this->input->post('geslo');
+		$pass2 = $this->input->post('potrditev');
+		if($pass1 != $pass2)
+		{
+			echo 'Gesli se ne ujemata!';
+		}
+		else
+		{
+/*			$me = array();
+		    $me['id'] = $this->s_id;
+			$me['naziv'] = $this->input->post('naziv');
+			$me['naslov'] = $this->input->post('naslov');
+			$me['posta'] = $this->input->post('posta');
+			$me['email'] = $this->input->post('email');
+			$me['telefon'] = $this->input->post('telefon');
+			$me['trr'] = $this->input->post('trr');
+			$me['banka'] = $this->input->post('banka');
+		$this->db->where('id', $this->s_id);
+		$this->db->update('narocnik', $me);*/
+			$this->db->query("UPDATE uporabnik SET geslo = ? WHERE id = ?", array(hash('sha256', $pass1), $uid));
+			redirect('nastavitve');
+		}
+	}
 }
+
+
 

@@ -43,6 +43,7 @@ class Racun_model extends CI_Model {
 			}
 			$znesek += $znesekPostavke;
 		}
-		return $znesek;
+		return number_format((float)$znesek, 2, '.', '');
+		//return $znesek;
 	}
 }

@@ -33,7 +33,9 @@ p
 	foreach($racun['postavke'] as $postavka)
 	{
 		$cenaZDDV = $postavka['cena'] + ($postavka['cena'] * ($postavka['ddv'] / 100));
+		$cenaZDDV = number_format((float)$cenaZDDV, 2, '.', '');
 		$znesekP = $cenaZDDV * $postavka['kolicina'];
+		$znesekP = number_format((float)$znesekP, 2, '.', '');
 		echo '<tr>
 		<td>'.$postavka['storitev_id'].'</td>
 		<td>'.$postavka['naziv'].'</td>
@@ -52,10 +54,15 @@ p
 		echo '</td>';
 		echo '<td>'.$znesekP.'€</td>';
 		$znesekP = $znesekP - ($znesekP * ($skupajPopust / 100));
+		$znesekP = number_format((float)$znesekP, 2, '.', '');
 		echo '<td>'.$znesekP.'€</td>
 		</tr>';
 	}
 	echo '</tbody></table>';
+	$onoff = $racun['predracun'] == 1 ? 'checked' : 'off';
+	echo '<div style="padding: 10px;"><form id="checkForm">
+			Predracun: <input type="checkbox" name="cb_predracun" checked="'.$onoff.'" id="cb_predracun">
+		</form></div>';
 	
 	echo '<p>Znesek brez DDV: '.$racun['znesekBrezDDV'].'€</p><p><strong>Znesek: '.$racun['znesek'].'€</strong></p>';
 	
@@ -73,6 +80,23 @@ p
 </div>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
 <script type="text/javascript">
+	$('#cb_predracun').change(function()
+	{
+		var valll = 0;
+		if ($('#cb_predracun').is(":checked"))
+			valll = 1;
+		$.ajax({url: '<?= base_url() ?>racuni/update_predracun/<?= $racun['id']; ?>/'+valll,
+                type: 'POST',
+                dataType: 'html',
+                success: function() {
+					//alert('s');
+                },
+                error: function() {
+                    //alert('f');
+                }                            
+            });
+	});
+	
 	$('#span_preklici').click(function(){
 		$('#pop-up').css('display', 'none');
 	});

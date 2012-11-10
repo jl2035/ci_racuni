@@ -38,8 +38,7 @@
 		</tr>
 	</table>
 	
-		
-
 	<?=	form_close(); ?>
-
+<br>
+	Za spremembo gesla klikni <?= anchor('nastavitve/sprememba_gesla', 'tukaj') ?>.
 </div>
