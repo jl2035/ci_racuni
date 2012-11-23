@@ -19,7 +19,7 @@ class Racuni extends CI_Controller {
 		$racuni_obj = array();
 		foreach($racuni as $r)
 		{
-			$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv FROM postavka JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result();
+			$postavke = $this->db->query("SELECT postavka.id, postavka.kolicina, postavka.storitev_id, storitev.cena, storitev.ddv, storitev.naziv FROM postavka LEFT JOIN storitev ON storitev.id = postavka.storitev_id WHERE postavka.racun_id = ".$r->id)->result();
 			$temp = array();
 			$temp['id'] = $r->id;
 			$temp['datum'] = $r->datum;
