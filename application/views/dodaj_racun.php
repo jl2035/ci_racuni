@@ -28,7 +28,7 @@
 		<tr>
 			<?php 
 				foreach($storitve_q->result() as $storitev)
-					$options[$storitev->id] = $storitev->naziv;
+					$options[$storitev->id] = $storitev->naziv.' ('.$storitev->id.')';
 				echo '<td>'.form_dropdown('storitev', $options, '', 'id="storitev"').'</td>'; // 'large', $js);
 				echo '<td><input type="text" id="sifra" name="sifra" style="width: 25px"></td>';
 				echo '<td>'.form_input('kolicina', '1', 'style="width: 50px;" id="kolicina"').'<span id="kol_span" style="visibility: hidden; color: red;"> !!</span></td>';
